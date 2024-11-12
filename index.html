@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modo Oscuro con Lunitas y Solecitos</title>
+  <style>
+    /* Estilos generales */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      transition: background-color 0.5s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Fondo con lunitas y solecitos */
+    #moon-icons, #sun-icons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .moon, .sun {
+      font-size: 2em;
+      position: absolute;
+      animation: float 4s linear infinite;
+      color: #ddd;
+    }
+
+    .dark-mode .sun {
+      color: #ffdd57;
+      opacity: 0.8;
+    }
+
+    /* Animaciones de flotación */
+    @keyframes float {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-20px);
+      }
+    }
+
+    /* Botón de modo oscuro */
+    #modeToggle {
+      z-index: 1;
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+      cursor: pointer;
+      outline: none;
+      transition: background-color 0.5s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #modeToggle:hover {
+      background: #555;
+    }
+
+    /* Modo oscuro */
+    .dark-mode {
+      background-color: #333;
+      color: #fff;
+    }
+
+    .dark-mode #modeToggle {
+      background: #f5f5f5;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Contenedores de iconos de luna y sol -->
+  <div id="moon-icons"></div>
+  <div id="sun-icons" style="display: none;"></div>
+
+  <!-- Botón para alternar modos -->
+  <button id="modeToggle">Modo Oscuro</button>
+
+  <script>
+    const modeToggle = document.getElementById("modeToggle");
+    const moonIcons = document.getElementById("moon-icons");
+    const sunIcons = document.getElementById("sun-icons");
+
+    // Función para crear iconos aleatorios
+    function createIcons(container, icon, count) {
+      for (let i = 0; i < count; i++) {
+        const iconElement = document.createElement("span");
+        iconElement.className = icon;
+        iconElement.textContent = icon === "moon" ? "🌙" : "☀️";
+        iconElement.style.top = Math.random() * 100 + "vh";
+        iconElement.style.left = Math.random() * 100 + "vw";
+        iconElement.style.animationDuration = 2 + Math.random() * 3 + "s";
+        container.appendChild(iconElement);
+      }
+    }
+
+    // Crear lunitas y solecitos
+    createIcons(moonIcons, "moon", 30);
+    createIcons(sunIcons, "sun", 30);
+
+    // Evento para alternar entre modos
+    modeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      
+      if (document.body.classList.contains("dark-mode")) {
+        modeToggle.textContent = "Modo Claro";
+        moonIcons.style.display = "none";
+        sunIcons.style.display = "block";
+      } else {
+        modeToggle.textContent = "Modo Oscuro";
+        moonIcons.style.display = "block";
+        sunIcons.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
